@@ -1,5 +1,6 @@
 package com.active.teethtime
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.BottomAppBarDefaults
@@ -29,8 +31,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.active.teethtime.ui.theme.AppTheme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+
+enum class Screen {
+    Home,
+    Calendar,
+    Help,
+    Start
+}
+
 
 
 class MainActivity : ComponentActivity() {
@@ -42,7 +53,11 @@ class MainActivity : ComponentActivity() {
                 HomeScreenPreview()
             }
         }
+
+
+
     }
+
 }
 
 @Composable
@@ -68,8 +83,10 @@ fun HomeScreen(modifier: Modifier = Modifier){
 
 @Composable
 fun NavBar(modifier: Modifier = Modifier){
+
     Row(
         modifier = Modifier
+            .padding(bottom = 30.dp)
             .fillMaxSize()
             .fillMaxWidth()
             .fillMaxHeight(),
@@ -78,13 +95,15 @@ fun NavBar(modifier: Modifier = Modifier){
 
 
     ){
-        FloatingActionButton(onClick = { /*TODO*/ }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
+        val calendarButton = FloatingActionButton(onClick = { Screen.Calendar }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
             Icon(painter = painterResource(R.drawable.calendar), contentDescription = "Calendar")
         }
         Spacer(modifier = Modifier.width(50.dp))
         FloatingActionButton(onClick = { /*TODO*/ }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
             Icon(painter = painterResource(R.drawable.help), contentDescription = "Help")
         }
+
+
     }
 }
 
