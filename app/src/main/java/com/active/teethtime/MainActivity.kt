@@ -49,15 +49,12 @@ class MainActivity : ComponentActivity() {
                 HomeScreenPreview()
             }
         }
-
-
-
     }
-
 }
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier){
+    val context = LocalContext.current
     Surface (color = MaterialTheme.colorScheme.primaryContainer){
         Column(
             modifier = modifier,
@@ -67,8 +64,9 @@ fun HomeScreen(modifier: Modifier = Modifier){
                 painter = painterResource(R.drawable.logo),
                 contentDescription = "Logotype"
             )
+            val intent = Intent(context, CountdownActivity::class.java)
             Spacer(modifier = Modifier.height(80.dp))
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { context.startActivity(intent) }) {
                 Text(stringResource(R.string.start))
             }
         }
