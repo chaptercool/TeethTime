@@ -1,5 +1,6 @@
 package com.active.teethtime
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -22,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,18 +33,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavHost
 import com.active.teethtime.ui.theme.AppTheme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-
-enum class Screen {
-    Home,
-    Calendar,
-    Help,
-    Start
-}
-
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +79,7 @@ fun HomeScreen(modifier: Modifier = Modifier){
 
 @Composable
 fun NavBar(modifier: Modifier = Modifier){
+    val context = LocalContext.current
 
     Row(
         modifier = Modifier
@@ -95,17 +92,20 @@ fun NavBar(modifier: Modifier = Modifier){
 
 
     ){
-        val calendarButton = FloatingActionButton(onClick = { Screen.Calendar }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
+        val intent = Intent(context, CalendarActivity::class.java)
+        val calendarButton = FloatingActionButton(onClick = { context.startActivity(intent) }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
             Icon(painter = painterResource(R.drawable.calendar), contentDescription = "Calendar")
         }
         Spacer(modifier = Modifier.width(50.dp))
-        FloatingActionButton(onClick = { /*TODO*/ }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
+        val otherIntent = Intent(context, HelpActivity::class.java)
+        FloatingActionButton(onClick = { context.startActivity(otherIntent) }, containerColor = BottomAppBarDefaults.bottomAppBarFabColor) {
             Icon(painter = painterResource(R.drawable.help), contentDescription = "Help")
         }
 
 
     }
 }
+
 
 
 @Preview(showBackground = true)

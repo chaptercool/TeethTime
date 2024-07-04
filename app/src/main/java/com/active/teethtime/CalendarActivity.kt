@@ -1,5 +1,6 @@
 package com.active.teethtime
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -23,10 +24,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.active.teethtime.ui.theme.AppTheme
 import com.active.teethtime.ui.theme.AppTheme
@@ -43,8 +46,10 @@ class CalendarActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun Calendar(modifier: Modifier = Modifier){
+    val context = LocalContext.current
     Surface (color = MaterialTheme.colorScheme.primaryContainer){
         Column (
             modifier = modifier,
@@ -55,16 +60,18 @@ fun Calendar(modifier: Modifier = Modifier){
         }
         Row(
             modifier = Modifier
-                .padding(30.dp)
+                .padding(50.dp)
                 .fillMaxSize()
                 .fillMaxWidth()
                 .fillMaxHeight(),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.Absolute.Left
         ){
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+
+            val intent = Intent(context, MainActivity::class.java)
+            FloatingActionButton(onClick = { context.startActivity(intent) }) {
                 Icon(painter = painterResource(R.drawable.back), contentDescription = "Calendar")
-                
+
             }
         }
     }

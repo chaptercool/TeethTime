@@ -45,4 +45,5 @@
     </string>
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="title_activity_timer">TimerActivity</string>
+    <string name="title_activity_help">HelpActivity</string>
 </resources>
