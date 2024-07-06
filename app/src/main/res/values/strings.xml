@@ -48,4 +48,11 @@
     <string name="title_activity_help">HelpActivity</string>
     <string name="title_activity_countdown">CountdownActivity</string>
     <string name="title_activity_finish">FinishActivity</string>
+    <string name="instr1">Brush your outside upper teeth through 20 seconds.</string>
+    <string name="instr2">Brush your outside lower teeth through 20 seconds.</string>
+    <string name="instr3">Brush back and forth along the chewing surfaces of your left teeth through 20 seconds.</string>
+    <string name="instr4">Brush back and forth along the chewing surfaces of your right teeth through 20 seconds</string>
+    <string name="instr5">Brush your inner upper teeth through 20 seconds.</string>
+    <string name="instr6">Brush your inner lower teeth through 20 seconds.</string>
+
 </resources>
