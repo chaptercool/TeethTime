@@ -38,7 +38,17 @@ class CountdownActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                CountdownPreview()
+                CountdownTimer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center),
+                    initialTimeMillis = 3000L,
+                    onTimerFinished = {
+                        val intent = Intent(this, TimerActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                )
             }
         }
     }
@@ -86,16 +96,16 @@ fun CountdownTimer(
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun CountdownPreview() {
-    val context = LocalContext.current
-    val intent = Intent(context, TimerActivity::class.java)
-    CountdownTimer(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center),
-        initialTimeMillis = 3000L,
-        onTimerFinished = { context.startActivity(intent) }
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CountdownPreview() {
+//    val context = LocalContext.current
+//    val intent = Intent(context, TimerActivity::class.java)
+//    CountdownTimer(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .wrapContentSize(Alignment.Center),
+//        initialTimeMillis = 3000L,
+//        onTimerFinished = { context.startActivity(intent) }
+//    )
+//}

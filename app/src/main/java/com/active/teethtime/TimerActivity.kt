@@ -20,25 +20,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -48,10 +39,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.active.teethtime.ui.theme.AppTheme
@@ -64,12 +53,14 @@ class TimerActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 ToothbrushTimerScreen(
-//                    onTimerFinished = {
-//                        // Replace with the action to take when the timer finishes
-//                        val intent = Intent(this, MainActivity::class.java)
-//                        startActivity(intent)
-//                        finish()
-//                    }
+                    onDestroy = {
+                        finish()
+                    },
+                    onTimerFinished = {
+                        val intent = Intent(this, FinishActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 )
             }
         }
@@ -79,7 +70,7 @@ class TimerActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ToothbrushTimerScreen(modifier: Modifier = Modifier) {
+fun ToothbrushTimerScreen(modifier: Modifier = Modifier, onTimerFinished: () -> Unit, onDestroy: () -> Unit) {
     var series by remember { mutableStateOf(0) }
     var timeLeft by remember { mutableStateOf(20) }
     var timerRunning by remember { mutableStateOf(true) }
@@ -111,7 +102,7 @@ fun ToothbrushTimerScreen(modifier: Modifier = Modifier) {
             series++
             timeLeft = 20
             if (series == 6) {
-//                onTimerFinished()
+                onTimerFinished()
             }
         }
     }
@@ -163,7 +154,7 @@ fun ToothbrushTimerScreen(modifier: Modifier = Modifier) {
                 title = { Text("Cancel Timer") },
                 text = { Text("Are you sure you want to cancel the timer?") },
                 confirmButton = {
-                    TextButton(onClick = { context.startActivity(intent) }) {
+                    TextButton(onClick = { onDestroy() }) {
                         Text("Yes")
                     }
                 },
@@ -196,11 +187,3 @@ fun ProgrCircle(tl: Int, modifier: Modifier = Modifier){
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun TimerPreview() {
-    ToothbrushTimerScreen(modifier = Modifier)
-}
-
-// onTimerFinished: () -> Unit
