@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.active.teethtime.ui.theme.AppTheme
@@ -77,12 +78,12 @@ fun ToothbrushTimerScreen(modifier: Modifier = Modifier, onTimerFinished: () -> 
     var showDialog by remember { mutableStateOf(false) }
 
     val seriesImages = listOf(
-        R.drawable.test,
-        R.drawable.test2,
-        R.drawable.test3,
-        R.drawable.test4,
-        R.drawable.test5,
-        R.drawable.test6
+        R.drawable.t,
+        R.drawable.t2,
+        R.drawable.t3,
+        R.drawable.t4,
+        R.drawable.t5,
+        R.drawable.t6
     )
     val context = LocalContext.current
     LaunchedEffect(series, timerRunning) {
@@ -132,7 +133,7 @@ fun ToothbrushTimerScreen(modifier: Modifier = Modifier, onTimerFinished: () -> 
                 )
             }
             Row(modifier = Modifier
-                .padding(35.dp)
+                .padding(32.dp)
                 .fillMaxSize()
                 .fillMaxWidth()
                 .fillMaxHeight(),
@@ -184,6 +185,21 @@ fun ProgrCircle(tl: Int, modifier: Modifier = Modifier){
                 .padding(16.dp)
                 .clip(CircleShape),
             strokeWidth = 5.dp
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TimerPreview() {
+    AppTheme {
+        ToothbrushTimerScreen(
+            onDestroy = {
+                /*TODO*/
+            },
+            onTimerFinished = {
+                /*TODO*/
+            }
         )
     }
 }

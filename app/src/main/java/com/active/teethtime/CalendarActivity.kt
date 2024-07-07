@@ -1,5 +1,6 @@
 package com.active.teethtime
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,11 +14,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -25,8 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,30 +50,51 @@ class CalendarActivity : ComponentActivity() {
     private val gson = Gson()
     private val fileName = "session_data.json"
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                val daysCount = remember { mutableStateOf(0) }
-                val coroutineScope = rememberCoroutineScope()
+                Scaffold (
+                    topBar = {
+                        LargeTopAppBar(
+                            title = { Text("Your streak") },
+                            colors = TopAppBarDefaults.largeTopAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            navigationIcon = {
+                                IconButton(onClick = { finish() }) {
+                                    Icon(
+                                        imageVector = ImageVector.vectorResource(id = R.drawable.back),
+                                        contentDescription = "Back to main page"
+                                    )
+                                }
+                            }
+                        )
 
-                LaunchedEffect(Unit) {
-                    coroutineScope.launch(Dispatchers.IO) {
-                        val loadedDaysCount = loadDaysCount()
-                        daysCount.value = loadedDaysCount
+                    },
+
+                ){
+                    val daysCount = remember { mutableStateOf(0) }
+                    val coroutineScope = rememberCoroutineScope()
+
+                    LaunchedEffect(Unit) {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            val loadedDaysCount = loadDaysCount()
+                            daysCount.value = loadedDaysCount
+                        }
                     }
+
+                    Calendar(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                        daysCount = daysCount.value
+                    )
                 }
 
-                Calendar(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center),
-                    onDestroy = {
-                        finish()
-                    },
-                    daysCount = daysCount.value
-                )
             }
         }
     }
@@ -83,7 +112,7 @@ class CalendarActivity : ComponentActivity() {
 }
 
 @Composable
-fun Calendar(modifier: Modifier = Modifier, onDestroy: () -> Unit, daysCount: Int) {
+fun Calendar(modifier: Modifier = Modifier, daysCount: Int) {
     val context = LocalContext.current
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
         Column(
@@ -93,19 +122,6 @@ fun Calendar(modifier: Modifier = Modifier, onDestroy: () -> Unit, daysCount: In
         ) {
             Text(text = daysCount.toString(), fontSize = 100.sp, style = MaterialTheme.typography.displayLarge)
             Text(text = "days", fontSize = 20.sp)
-        }
-        Row(
-            modifier = Modifier
-                .padding(50.dp)
-                .fillMaxSize()
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            FloatingActionButton(onClick = { onDestroy() }) {
-                Icon(painter = painterResource(R.drawable.back), contentDescription = "Calendar")
-            }
         }
     }
 }
@@ -118,7 +134,6 @@ fun CalendarPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize(Alignment.Center),
-            onDestroy = {},
             daysCount = 45
         )
     }

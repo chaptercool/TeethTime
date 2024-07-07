@@ -110,6 +110,6 @@ private fun StepList(steps: List<Step>, modifier: Modifier = Modifier) {
 @Composable
 fun HelpPreview() {
     AppTheme {
-        StepBlock(modifier = Modifier, step = Step(R.string.instr1, R.drawable.test))
+        StepBlock(modifier = Modifier, step = Step(R.string.instr1, R.drawable.t))
     }
 }
